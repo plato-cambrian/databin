@@ -1,0 +1,18 @@
+{
+  "name": "databin",
+  "version": "0.1.0",
+  "homepage": "https://github.com/plato-cambrian/databin",
+  "authors": [
+    "plato-cambrian <plato@cambrian.org>"
+  ],
+  "description": "Basic file upload app to explore skipper",
+  "main": "server.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

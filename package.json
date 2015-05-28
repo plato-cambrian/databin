@@ -19,6 +19,7 @@
   "dependencies": {
     "connect-logger": "0.0.1",
     "express": "^4.12.4",
-    "skipper": "^0.5.5"
+    "skipper": "^0.5.5",
+    "skipper-s3": "^0.5.5"
   }
 }

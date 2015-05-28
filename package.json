@@ -1,0 +1,24 @@
+{
+  "name": "databin",
+  "version": "0.1.0",
+  "description": " Basic file upload app to explore skipper",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/plato-cambrian/databin.git"
+  },
+  "author": "therealplato",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/plato-cambrian/databin/issues"
+  },
+  "homepage": "https://github.com/plato-cambrian/databin",
+  "dependencies": {
+    "connect-logger": "0.0.1",
+    "express": "^4.12.4",
+    "skipper": "^0.5.5"
+  }
+}

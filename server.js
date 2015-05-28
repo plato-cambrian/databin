@@ -2,6 +2,21 @@ var express = require('express');
 var logger = require('connect-logger');
 var http = require('http');
 var skipper = require('skipper');
+var fs = require('fs');
+
+try{
+  fs.readFileSync('./locals.js', {encoding: 'utf8'});
+} catch(e){
+  console.log('Set your AWS/S3 api keys in cfg/locals.js')
+  var locals = {
+    accessKeyId : 'AAAAAAAAAAAAAAAAAAAA',
+    secretAccessKey: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    region: 'us-east-1',
+  };
+  locals = JSON.stringify(locals, null, 2);
+  fs.writeFileSync('./locals.js', locals, {encoding: 'utf8'});
+  process.exit();
+}
 
 var app = express();
 app.use(skipper());

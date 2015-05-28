@@ -1,11 +1,12 @@
 var express = require('express');
 var logger = require('connect-logger');
 var http = require('http');
+var skipper = require('skipper');
 
 var app = express();
-app.use(require('skipper')());
-app.use('/web', express.static(__dirname+'/web'));
+app.use(skipper());
 app.use(logger());
+app.use(express.static(__dirname+'/web'));
 
 app.get('/', function(req, res){
   res.redirect('/index.html');

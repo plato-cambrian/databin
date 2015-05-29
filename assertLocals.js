@@ -6,7 +6,9 @@ try{
   var locals = {
     accessKeyId : 'AAAAAAAAAAAAAAAAAAAA',
     secretAccessKey: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-    region: 'us-east-1',
+    region: 'us-standard',
+    endpoint: "s3.amazonaws.com",
+    bucket: "your-bucket"
   };
   locals = JSON.stringify(locals, null, 2);
   locals = "module.exports = " + locals;

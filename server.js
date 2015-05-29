@@ -21,8 +21,14 @@ app.post('/uploadform', function(req, res){
   .upload({
     saveAs: 'background.img'
   },function (err, uploadedFiles){
-    if (err) return res.send(500, err);
-    res.redirect('/index.html');
+    console.log(uploadedFiles);
+    if (err || uploadedFiles.length === 0){
+      return res.send(500, err);
+    }
+    // Delay a couple seconds to give the upload a chance to complete:
+    setTimeout(function(){
+      res.redirect('/index.html');
+    }, 3000);
   })
 
 })
@@ -36,6 +42,10 @@ app.post('/uploadS3', function(req, res){
     endpoint: cfgLocals.endpoint,
     bucket: cfgLocals.bucket,
   }, function(err, uploadedFiles){
+    if (err || uploadedFiles.length === 0){
+     console.log(err);
+     return res.redirect('/index.html');
+    }
     console.log(uploadedFiles);
     var loc = uploadedFiles[0].extra.Location;
     // skipper-s3 does not set an ACL policy:
@@ -43,10 +53,10 @@ app.post('/uploadS3', function(req, res){
       Key: uploadedFiles[0].extra.Key,
     }
     myS3.makePublic(opts, function(err, info){
-      console.log(info);
+      //console.log(info);
       if (err){
        console.log(err);
-       return res.send(500, err);
+       return res.redirect('/index.html');
       }
       return res.status(200).redirect(loc);
     })

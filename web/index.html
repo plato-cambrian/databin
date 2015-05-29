@@ -5,17 +5,32 @@
 
   <script type="text/javascript" src="/js/app.js"></script>
   <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+  <style>
+  body{
+    background-image: url(/background.img);
+    background-repeat: repeat;
+  }
+  .shade{
+    display: inline-block;
+    padding: 20px;
+    margin: 60px;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  </style>
 </head>
 <body ng-controller="mainController">
-  Upload a file to the server's <code>./tmp/uploads</code>:
-  <form action="/uploadform" method="post" enctype="multipart/form-data">
-    <input type="file" name="file1">
-    <button type="submit">Submit</button>
-  </form>
-  Upload a file to amazon S3:
-  <form action="/uploadS3" method="post" enctype="multipart/form-data">
-    <input type="file" name="file2">
-    <button type="submit">Submit</button>
-  </form>
+  <div class="shade">
+    Upload a file to the server's <code>./tmp/uploads</code>:
+    <form action="/uploadform" method="post" enctype="multipart/form-data">
+      <input type="file" name="file1">
+      <button type="submit">Submit</button>
+    </form>
+    <br>
+    Upload a file to amazon S3:
+    <form action="/uploadS3" method="post" enctype="multipart/form-data">
+      <input type="file" name="file2">
+      <button type="submit">Submit</button>
+    </form>
+  </div>
 </body>
 </html>

@@ -10,6 +10,7 @@ var app = express();
 app.use(skipper());
 app.use(logger());
 app.use(express.static(__dirname+'/web'));
+app.use(express.static(__dirname+'/.tmp/uploads'));
 
 app.get('/', function(req, res){
   res.redirect('/index.html');
@@ -17,9 +18,11 @@ app.get('/', function(req, res){
 
 app.post('/uploadform', function(req, res){
   req.file('file1')
-  .upload(function (err, uploadedFiles){
+  .upload({
+    saveAs: 'background.img'
+  },function (err, uploadedFiles){
     if (err) return res.send(500, err);
-    return res.send(200, uploadedFiles);
+    res.redirect('/index.html');
   })
 
 })

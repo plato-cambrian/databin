@@ -3,8 +3,11 @@ var logger = require('connect-logger');
 var http = require('http');
 var skipper = require('skipper');
 var skipperS3 = require('skipper-s3');
+var mmm = require('mmmagic'),
+  Magic = mmm.Magic;
 var cfgLocals = require('./assertLocals.js');
 var myS3 = require('./myS3.js')(cfgLocals);
+var dataInspection = new Magic(mmm.MAGIC_MIME_TYPE);
 
 var app = express();
 app.use(skipper());
@@ -17,20 +20,31 @@ app.get('/', function(req, res){
 })
 
 app.post('/uploadform', function(req, res){
-  req.file('file1')
-  .upload({
-    saveAs: 'background.img'
-  },function (err, uploadedFiles){
-    console.log(uploadedFiles);
-    if (err || uploadedFiles.length === 0){
-      return res.send(500, err);
+  if (!req.file('file1')) {
+    return res.status(500).send("No file found");
+  }
+  var buffer = req.file('file1')._readableState.buffer[0]._readableState.buffer[0];
+  dataInspection.detect(buffer, function (err, result) {
+    if (err) {
+      return res.status(500).send(err);   
     }
-    // Delay a couple seconds to give the upload a chance to complete:
-    setTimeout(function(){
-      res.redirect('/index.html');
-    }, 3000);
-  })
-
+    if (!/^image\//.test(result)) {
+      return res.status(500).send("Not image file");
+    };
+    req.file('file1')
+    .upload({
+      saveAs: 'background.img'
+    },function (err, uploadedFiles){
+      console.log(uploadedFiles);
+      if (err || uploadedFiles.length === 0){
+        return res.status(500).send(err);
+      }
+      // Delay a couple seconds to give the upload a chance to complete:
+      setTimeout(function(){
+        res.redirect('/index.html');
+      }, 3000);
+    })
+  });
 })
 app.post('/uploadS3', function(req, res){
   req.file('file2')

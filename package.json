@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/plato-cambrian/databin",
   "dependencies": {
+    "aws-sdk": "^2.1.32",
     "connect-logger": "0.0.1",
     "express": "^4.12.4",
     "skipper": "^0.5.5",

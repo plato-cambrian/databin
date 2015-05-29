@@ -4,6 +4,7 @@ var http = require('http');
 var skipper = require('skipper');
 var skipperS3 = require('skipper-s3');
 var cfgLocals = require('./assertLocals.js');
+var myS3 = require('./myS3.js')(cfgLocals);
 
 var app = express();
 app.use(skipper());
@@ -29,12 +30,23 @@ app.post('/uploadS3', function(req, res){
     adapter: skipperS3,
     key: cfgLocals.accessKeyId,
     secret: cfgLocals.secretAccessKey,
-    endpoint: 's3.amazonaws.com',
-    bucket: 'ships.databin'
+    endpoint: cfgLocals.endpoint,
+    bucket: cfgLocals.bucket,
   }, function(err, uploadedFiles){
-    if (err) return res.send(500, err);
+    console.log(uploadedFiles);
     var loc = uploadedFiles[0].extra.Location;
-    return res.status(200).redirect(loc);
+    // skipper-s3 does not set an ACL policy:
+    var opts = {
+      Key: uploadedFiles[0].extra.Key,
+    }
+    myS3.makePublic(opts, function(err, info){
+      console.log(info);
+      if (err){
+       console.log(err);
+       return res.send(500, err);
+      }
+      return res.status(200).redirect(loc);
+    })
   })
 })
 
